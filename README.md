@@ -1,282 +1,101 @@
-# -BG-SAF-T
-SAF-T General
-
-1. Main Entity: InvoiceStructure
-
-    Fields to Populate:
-        InvoiceNo (string, max length 70)
-        AccountID (string, max length 70)
-        BranchStoreNumber (string, max length 35)
-        Period (string)
-        PeriodYear (string)
-        InvoiceDate (DateTime)
-        InvoiceType (string, max length 9)
-        PaymentTerms (string, max length 70)
-        SelfBillingIndicator (string, max length 9)
-        SourceID (string, max length 35)
-        BatchID (string, max length 35)
-        SystemID (string, max length 35)
-        TransactionID (string, max length 70)
-        ReceiptNumbers (string, max length 256)
-
-    Connections:
-        CustomerInfo (InvoiceStructureCustomerInfo)
-        SupplierInfo (InvoiceStructureSupplierInfo)
-        ShipTo (ShippingPointStructure)
-        ShipFrom (ShippingPointStructure)
-        InvoiceLine (Collection of InvoiceStructureInvoiceLine)
-        InvoiceSettlement (InvoiceStructureInvoiceSettlement)
-        InvoiceDocumentTotals (InvoiceStructureInvoiceDocumentTotals)
-
-2. Customer Information: InvoiceStructureCustomerInfo
-
-    Fields to Populate:
-        CustomerID (string, max length 35)
-        Name (string, max length 70)
-        BillingAddress (AddressStructure)
-
-3. Supplier Information: InvoiceStructureSupplierInfo
-
-    Fields to Populate:
-        SupplierID (string, max length 35)
-        Name (string, max length 70)
-        BillingAddress (AddressStructure)
-
-4. Address Structure: AddressStructure
-
-    Fields to Populate:
-        StreetName (string, max length 70)
-        Number (string, max length 18)
-        AdditionalAddressDetail (string, max length 70)
-        Building (string, max length 35)
-        City (string, max length 35)
-        PostalCode (string, max length 18)
-        Region (string, max length 35)
-        Country (string)
-        AddressType (AddressStructureAddressType)
-
-5. Shipping Point Structure: ShippingPointStructure
-
-    Fields to Populate:
-        DeliveryID (string, max length 35)
-        DeliveryDate (DateTime, nullable)
-        WarehouseID (string, max length 35)
-        LocationID (string, max length 18)
-        UCR (string, max length 35)
-        Address (AddressStructure)
-
-6. Invoice Line: InvoiceStructureInvoiceLine
-
-    Fields to Populate:
-        LineNumber (string, max length 18)
-        AccountID (string, max length 70)
-        GoodsServicesID (string, max length 9)
-        ProductCode (string, max length 70)
-        ProductDescription (string, max length 256)
-        Quantity (decimal)
-        InvoiceUOM (string, max length 9)
-        UnitPrice (decimal)
-        TaxPointDate (DateTime)
-        Description (string, max length 256)
-        DebitCreditIndicator (InvoiceStructureInvoiceLineDebitCreditIndicator)
-        InvoiceLineAmount (AmountStructure)
-        ShippingCostsAmount (AmountStructure)
-
-7. Amount Structure: AmountStructure
-
-    Fields to Populate:
-        Amount (decimal)
-        CurrencyCode (string)
-        CurrencyAmount (decimal)
-        ExchangeRate (decimal, nullable)
-
-8. Invoice Settlement: InvoiceStructureInvoiceSettlement
-
-    Fields to Populate:
-        SettlementDiscount (string, max length 35)
-        SettlementAmount (AmountStructure)
-        SettlementDate (DateTime, nullable)
-        PaymentMechanism (string, max length 9)
-
-9. Invoice Document Totals: InvoiceStructureInvoiceDocumentTotals
+BG SAF-T
 
-    Fields to Populate:
-        NetTotal (decimal)
-        GrossTotal (decimal)
-        ShippingCostsAmountTotal (decimal, nullable)
-        TaxInformationTotals (Collection of TaxInformationStructure)
+AuditFile
 
-10. Tax Information Structure: TaxInformationStructure
+    Description: Root element of the Bulgarian SAF-T file.
+    Български: Основен елемент на българския SAF-T файл.
 
-    Fields to Populate:
-        TaxType (string, max length 9)
-        TaxCode (string, max length 9)
-        TaxPercentage (decimal, nullable)
-        TaxBase (decimal, nullable)
-        TaxBaseDescription (string, max length 70)
-        TaxAmount (AmountStructure)
-        TaxExemptionReason (string, max length 70)
-        TaxDeclarationPeriod (string, max length 35)
+    Type: Complex Type
 
-Connections Summary
+    Required: Yes
 
-    The InvoiceStructure is the central entity that connects to customer and supplier information, shipping details, invoice lines, and settlement information.
-    Each invoice line can have multiple tax information entries, and the document totals aggregate values from the invoice lines.
-    Address structures are used for both customer and supplier billing addresses, as well as shipping points.
+Header
 
-This structured analysis provides a clear overview of the fields that need to be populated and the relationships between different entities in the schema.
+    Description: General information about the SAF-T audit file.
+    Български: Обща информация за този стандартен одитен файл.
 
+    Type: Complex Type
 
-Relationships Between Entities in the Invoice Schema
+    Required: Yes
 
-The schema defines a complex structure with various entities that are interconnected. Below is a detailed description of the relationships between these entities, along with examples to illustrate each relationship.
-1. InvoiceStructure
+TaxAccountingBasis
 
-    Description: The main entity representing an invoice.
-    Relationships:
-        CustomerInfo: Contains details about the customer associated with the invoice.
-        SupplierInfo: Contains details about the supplier associated with the invoice.
-        ShipTo: Represents the shipping address for the invoice.
-        ShipFrom: Represents the origin address for the invoice.
-        InvoiceLine: A collection of invoice line items that detail the products or services sold.
-        InvoiceSettlement: Contains information about any settlements related to the invoice.
-        InvoiceDocumentTotals: Aggregates totals for the invoice, including net and gross amounts.
+    Description: Specifies the type of data included in the SAF-T file.
+    Български: Тип данни в одитния файл.
 
-Example:
+    Type: Complex Type
 
-InvoiceStructure
+    Required: Yes
 
-  ├── CustomerInfo (InvoiceStructureCustomerInfo)
-  ├── SupplierInfo (InvoiceStructureSupplierInfo)
-  ├── ShipTo (ShippingPointStructure)
-  ├── ShipFrom (ShippingPointStructure)
-  ├── InvoiceLine (Collection of InvoiceStructureInvoiceLine)
-  ├── InvoiceSettlement (InvoiceStructureInvoiceSettlement)
-  └── InvoiceDocumentTotals (InvoiceStructureInvoiceDocumentTotals)
-  
-2. InvoiceStructureCustomerInfo
+    Allowed Enumerations:
 
-    Description: Contains information about the customer.
-    Relationships:
-        BillingAddress: An instance of AddressStructure that provides the customer's billing address.
+        A – Търговски предприятия (Commercial enterprises)
 
-Example:
+        P – Бюджетни предприятия (Budget enterprises)
 
-InvoiceStructureCustomerInfo
+        BANK – Банкови институции (Banks)
 
-  ├── CustomerID: "CUST123"
-  ├── Name: "John Doe"
-  └── BillingAddress (AddressStructure)
+        INSURANCE – Застрахователни компании (Insurance companies)
 
-3. InvoiceStructureSupplierInfo
+TaxEntity
 
-    Description: Contains information about the supplier.
-    Relationships:
-        BillingAddress: An instance of AddressStructure that provides the supplier's billing address.
+    Description: Identification of the tax entity (company, subsidiary, or branch).
+    Български: Файл за фирма/подразделение/клон.
 
-Example:
+    Type: nsSAFT:SAFmiddle2textType
 
-InvoiceStructureSupplierInfo
+    Required: No
 
-  ├── SupplierID: "SUPP456"
-  ├── Name: "ABC Supplies"
-  └── BillingAddress (AddressStructure)
+MasterFiles
 
-4. AddressStructure
+    Description: Contains master data related to accounting, suppliers, clients, and products.
+    Български: Основни данни за счетоводни сметки, доставчици, клиенти, продукти и др.
 
-    Description: Represents an address.
-    Relationships:
-        Used in both InvoiceStructureCustomerInfo and InvoiceStructureSupplierInfo for billing addresses.
-        Used in ShippingPointStructure for shipping addresses.
+    Type: Complex Type
 
-Example:
+    Required: Yes
 
-AddressStructure
+GeneralLedgerAccounts
 
-  ├── StreetName: "123 Main St"
-  ├── Number: "45"
-  ├── City: "Metropolis"
-  ├── PostalCode: "12345"
-  └── Country: "CountryName"
+    Description: A list of general ledger accounts.
+    Български: Списък на счетоводните сметки.
 
-5. ShippingPointStructure
+    Type: Complex Type
 
-    Description: Represents shipping points for the invoice.
-    Relationships:
-        Address: An instance of AddressStructure that provides the address for shipping.
+    Required: Yes
 
-Example:
+Account
 
-ShippingPointStructure
+    Description: Represents an individual general ledger account.
+    Български: Информация за счетоводни сметки.
 
-  ├── DeliveryID: "DEL001"
-  ├── WarehouseID: "WH001"
-  └── Address (AddressStructure)
+    Type: Complex Type
 
-6. InvoiceStructureInvoiceLine
+    Required: No (Multiple entries allowed)
 
-    Description: Represents individual line items in the invoice.
-    Relationships:
-        ShipTo: Can reference a shipping point for the line item.
-        ShipFrom: Can reference a shipping point for the line item.
-        Analysis: Can contain analysis structures for additional categorization.
-        TaxInformation: Can contain tax information related to the line item.
+AccountID
 
-Example:
+    Description: A unique identifier for an account, which should match the provided chart of accounts from the National Revenue Agency.
+    Български: Код на аналитична счетоводна сметка, който трябва да съответства на предоставената номенклатура от сметки от НАП.
 
-InvoiceStructureInvoiceLine
+    Type: nsSAFT:SAFmiddle2textType
 
-  ├── LineNumber: "1"
-  ├── ProductCode: "PROD789"
-  ├── Quantity: 10
-  ├── UnitPrice: 15.00
-  └── TaxInformation (Collection of TaxInformationStructure)
+    Required: Yes
 
-7. InvoiceStructureInvoiceSettlement
+AccountDescription
 
-    Description: Contains settlement information for the invoice.
-    Relationships:
-        SettlementAmount: An instance of AmountStructure that details the settlement amount.
+    Description: The name of the account as recorded in the taxpayer’s system.
+    Български: Наименование на сметката от системата на задълженото лице.
 
-Example:
+    Type: nsSAFT:SAFlongtextType
 
-InvoiceStructureInvoiceSettlement
+    Required: Yes
 
-  ├── SettlementDiscount: "5%"
-  └── SettlementAmount (AmountStructure)
+TaxpayerAccountID
 
-8. InvoiceStructureInvoiceDocumentTotals
+    Description: The account number as used in the taxpayer’s accounting system.
+    Български: Номер на сметка от информационната система, използвана за счетоводно отчитане от данъкоплатеца.
 
-    Description: Aggregates totals for the invoice.
-    Relationships:
-        TaxInformationTotals: A collection of tax information structures that summarize tax details.
+    Type: nsSAFT:SAFmiddle1textType
 
-Example:
-
-InvoiceStructureInvoiceDocumentTotals
-
-  ├── NetTotal: 150.00
-  ├── GrossTotal: 157.50
-  └── TaxInformationTotals (Collection of TaxInformationStructure)
-
-9. TaxInformationStructure
-
-    Description: Represents tax-related information.
-    Relationships:
-        Can be associated with both InvoiceStructureInvoiceLine and InvoiceStructureInvoiceDocumentTotals.
-
-Example:
-
-TaxInformationStructure
-
-  ├── TaxType: "VAT"
-  ├── TaxCode: "VAT20"
-  └── TaxAmount (AmountStructure)
-
-Summary of Relationships
-
-    The InvoiceStructure serves as the central entity connecting customer and supplier information, shipping details, line items, and settlement information.
-    Each InvoiceLine can have multiple TaxInformation entries, and the InvoiceDocumentTotals aggregates values from the invoice lines.
-    AddressStructure is reused across different entities for billing and shipping addresses, demonstrating a clear relationship between customers, suppliers, and shipping points.
-
-This structured overview provides a clear understanding of how the entities are interconnected within the invoice schema, along with practical examples to illustrate these relationships.
+    Required: Yes
